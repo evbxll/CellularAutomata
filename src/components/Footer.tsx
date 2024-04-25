@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGithub } from '@fortawesome/free-brands-svg-icons';
-import currentRepo from '@/public/common';
+// import currentRepo from '@/public/common';
 
 const Footer = () => {
   return (
@@ -8,7 +8,7 @@ const Footer = () => {
       <div className="container mx-auto flex justify-between items-end px-6">
         <div className="flex items-center justify-center space-x-6">
           <a
-            href={`https://github.com/evbxll/${currentRepo}`}
+            href={`https://github.com/evbxll/CellularAutomata`}
             target='_blank'
             rel="noopener noreferrer"
             className="text-white hover:text-gray-300 transition-colors duration-300 flex items-center"
