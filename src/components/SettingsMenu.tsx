@@ -42,9 +42,9 @@ const SettingsMenu: React.FC<{
         )}
         {showSettingsMenu && (
           <Draggable handle=".drag-handle">
-            <div className="absolute top-10 right-10 bg-gray-200 bg-opacity-80 p-6 rounded-md shadow-md font-sans">
+            <div className="absolute top-10 right-10 bg-gray-200 bg-opacity-80 p-2 padding-top-0 rounded-md shadow-md font-sans">
             <div className="drag-handle w-full h-12 flex justify-center items-center cursor-move">
-          <FontAwesomeIcon icon={faGripVertical} className="text-gray-600" />
+          <FontAwesomeIcon icon={faGripHorizontal} className="text-gray-600" />
         </div>
               <button
                 className="absolute top-2 right-2 text-gray-600 hover:text-gray-800"
@@ -57,11 +57,11 @@ const SettingsMenu: React.FC<{
               <h2 className="text-lg font-semibold mb-2">Settings Menu</h2>
               <div className="mb-2">
                 <label className="block text-sm mb-1">Draw Radius: <span className="text-gray-500 ml-2">{radius}</span></label>
-                <input type="range" min="1" max="10" value={radius} onChange={(e) => updateRadius(parseInt(e.target.value))} className="w-full appearance-none bg-gray-300 rounded-md h-5 transition-opacity duration-200 opacity-70 hover:opacity-100" />
+                <input type="range" min="0" max="10" value={radius} onChange={(e) => updateRadius(parseInt(e.target.value))} className="w-full appearance-none bg-gray-300 rounded-md h-5 transition-opacity duration-200 opacity-70 hover:opacity-100" />
               </div>
               <div className="mb-2">
                 <label className="block text-sm mb-1"># of Rows: <span className="text-gray-500 ml-2">{rows}</span></label>
-                <input type="range" min="10" max="200" value={rows} onChange={(e) => updateRows(parseInt(e.target.value))} className="w-full appearance-none bg-gray-300 rounded-md h-5 transition-opacity duration-200 opacity-70 hover:opacity-100" />
+                <input type="range" min="10" max="500" value={rows} onChange={(e) => updateRows(parseInt(e.target.value))} className="w-full appearance-none bg-gray-300 rounded-md h-5 transition-opacity duration-200 opacity-70 hover:opacity-100" />
               </div>
               <div className="mb-2">
                 <label className="block text-sm mb-1">Click-Draw change rate: <span className="text-gray-500 ml-2">{drawAddChance}</span></label>

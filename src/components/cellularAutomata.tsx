@@ -14,6 +14,7 @@ const CellularAutomaton: React.FC = () => {
 
     const [drawAddChance, setDrawAddChance] = useState<number>(0.5);
 
+
     /**
      * Resizes the board when the screen does
      * @returns 
@@ -31,10 +32,8 @@ const CellularAutomaton: React.FC = () => {
         canvas.style.width = `${rect.width}px`;
         canvas.style.height = `${rect.height}px`;
 
-        setCols(Math.ceil(rows * canvas.width / canvas.height))
+        setCols(Math.round(rows * canvas.width / canvas.height))
 
-        updateGrid()
-        drawGrid();
     };
 
     /**
@@ -72,22 +71,11 @@ const CellularAutomaton: React.FC = () => {
                         }
                     }
                 }
-                if (resizeTempGrid[i][j] === 1) {
-                    if (count < 2 || count > 3) {
-                        updatedGrid[i][j] = 0; // Any live cell with fewer than two live neighbors dies, as if by underpopulation. Any live cell with more than three live neighbors dies, as if by overpopulation.
-                    }
-                    else {
-                        updatedGrid[i][j] = 1; // survives
-                    }
+                const alreadyAlive = resizeTempGrid[i][j] === 1;
+                const threeNeighbors = count === 3;
+                const twoNeighbors = count === 2;
 
-                } else if (resizeTempGrid[i][j] === 0) {
-                    if (count === 3) {
-                        updatedGrid[i][j] = 1; // Any dead cell with exactly three live neighbors becomes a live cell, as if by reproduction.
-                    }
-                    else {
-                        updatedGrid[i][j] = 0;
-                    }
-                }
+                updatedGrid[i][j] = ((alreadyAlive && (threeNeighbors || twoNeighbors)) || (!alreadyAlive && threeNeighbors)) ? 1 : 0;
             }
         }
         setGrid(updatedGrid);
@@ -104,9 +92,10 @@ const CellularAutomaton: React.FC = () => {
         const ctx = canvas.getContext('2d');
         if (!ctx) return;
 
-        const cellSize = Math.ceil(canvas.height / rows)
+        const cellSize = Math.round(canvas.height / rows)
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.strokeStyle = 'rgba(0, 0, 0, 0.1)';
+        ctx.lineWidth = 0.5
         for (let i = 0; i <= canvas.width; i += cellSize) {
             ctx.beginPath();
             ctx.moveTo(i, 0);
@@ -122,7 +111,7 @@ const CellularAutomaton: React.FC = () => {
         for (let i = 0; i < rows; i++) {
             for (let j = 0; j < cols; j++) {
                 if (grid[i]?.[j]) {
-                    ctx.fillStyle = grid[i][j] === 1 ? 'lightblue' : 'white';
+                    ctx.fillStyle = grid[i][j] === 1 ? 'red' : 'white';
                     // careful, i and j should be swapped here because 
                     //      canvas defines x as the horizontal direction, instead of i being the row index (vertical direction)
                     ctx.fillRect(j * cellSize + 1, i * cellSize + 1, cellSize - 1, cellSize - 1);
@@ -159,9 +148,9 @@ const CellularAutomaton: React.FC = () => {
         const mouseX = event.clientX - rect.left;
         const mouseY = event.clientY - rect.top;
 
-        const cellSize = Math.ceil(canvas.height / rows);
-        const col = Math.floor(mouseX / cellSize);
-        const row = Math.floor(mouseY / cellSize);
+        const cellSize = Math.round(canvas.height / rows);
+        const col = Math.round(mouseX / cellSize);
+        const row = Math.round(mouseY / cellSize);
 
         // Create a new grid with the same dimensions as the existing grid
         const updatedGrid = new Array(rows);
