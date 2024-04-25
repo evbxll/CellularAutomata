@@ -1,11 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import SettingsMenu from './SettingsMenu';
 
-export enum DrawType {
-    ADD = 'add',
-    RANDOMIZE = 'randomize',
-    ERASE = 'erase'
-}
 
 const CellularAutomaton: React.FC = () => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -17,7 +12,7 @@ const CellularAutomaton: React.FC = () => {
     const [rows, setRows] = useState(50);
     const [refreshDelay, setRefreshDelay] = useState(500);
 
-    const [drawType, setDrawType] = useState<DrawType>(DrawType.RANDOMIZE);
+    const [drawAddChance, setDrawAddChance] = useState<number>(0.5);
 
     /**
      * Resizes the board when the screen does
@@ -36,7 +31,7 @@ const CellularAutomaton: React.FC = () => {
         canvas.style.width = `${rect.width}px`;
         canvas.style.height = `${rect.height}px`;
 
-        setRows(Math.ceil(cols * canvas.height / canvas.width));
+        setCols(Math.ceil(rows * canvas.width / canvas.height))
 
         updateGrid()
         drawGrid();
@@ -63,7 +58,7 @@ const CellularAutomaton: React.FC = () => {
                 resizeTempGrid[i][j] = grid[i]?.[j] ?? 0;
             }
         }
-        console.log(resizeTempGrid)
+        // console.log(resizeTempGrid)
         for (let i = 0; i < rows; i++) {
             for (let j = 0; j < cols; j++) {
                 let count = 0;
@@ -109,7 +104,7 @@ const CellularAutomaton: React.FC = () => {
         const ctx = canvas.getContext('2d');
         if (!ctx) return;
 
-        const cellSize = Math.ceil(canvas.width / cols)
+        const cellSize = Math.ceil(canvas.height / rows)
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.strokeStyle = 'rgba(0, 0, 0, 0.1)';
         for (let i = 0; i <= canvas.width; i += cellSize) {
@@ -150,9 +145,7 @@ const CellularAutomaton: React.FC = () => {
      * @returns the new value of the cell
      */
     const changeCellOnClick = (cellValue: number): number => {
-        if (drawType === DrawType.ADD) return 1;
-        if (drawType === DrawType.RANDOMIZE) return (Math.random() < 0.5) ? 1 : 0;
-        return 0
+        return (Math.random() < drawAddChance) ? 1 : 0;
 
     }
 
@@ -166,7 +159,7 @@ const CellularAutomaton: React.FC = () => {
         const mouseX = event.clientX - rect.left;
         const mouseY = event.clientY - rect.top;
 
-        const cellSize = Math.ceil(canvas.width / cols);
+        const cellSize = Math.ceil(canvas.height / rows);
         const col = Math.floor(mouseX / cellSize);
         const row = Math.floor(mouseY / cellSize);
 
@@ -220,7 +213,7 @@ const CellularAutomaton: React.FC = () => {
 
     useEffect(() => {
         resizeHandler();
-    }, [cols]);
+    }, [rows]);
 
     useEffect(() => {
         drawGrid();
@@ -241,15 +234,15 @@ const CellularAutomaton: React.FC = () => {
         <>
             <SettingsMenu
                 updateRadius={setRadius}
-                updateCols={setCols}
+                updateRows={setRows}
                 updateRefreshDelay={setRefreshDelay}
                 setShowSettingsMenu={setShowSettingsMenu}
                 showSettingsMenu={showSettingsMenu}
                 clearBoard={EraseBoard}
-                drawType={drawType}
-                setDrawType={setDrawType}
+                drawAddChance ={drawAddChance}
+                setDrawAddChance ={setDrawAddChance}
                 radius={drawRadius}
-                cols={cols}
+                rows={rows}
                 refreshDelay={refreshDelay} 
             />
             <canvas
