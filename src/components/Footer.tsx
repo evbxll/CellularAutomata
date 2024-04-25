@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGithub } from '@fortawesome/free-brands-svg-icons';
-import { currentRepo } from '@/public/common';
+import currentRepo from '@/public/common';
 
 const Footer = () => {
   return (
