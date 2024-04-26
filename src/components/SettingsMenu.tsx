@@ -12,6 +12,7 @@ const SettingsMenu: React.FC<{
   clearBoard: () => void;
   setDrawAddChance: (value: number) => void;
   setShowSettingsMenu: (value: boolean) => void;
+  randomizeBoard: () => void;
   showSettingsMenu: boolean;
   drawAddChance: number;
   radius: number;
@@ -24,6 +25,7 @@ const SettingsMenu: React.FC<{
   clearBoard,
   setDrawAddChance,
   setShowSettingsMenu,
+  randomizeBoard,
   showSettingsMenu,
   drawAddChance,
   radius,
@@ -43,9 +45,9 @@ const SettingsMenu: React.FC<{
         {showSettingsMenu && (
           <Draggable handle=".drag-handle" bounds="parent">
             <div className="absolute top-10 right-10 bg-gray-200 bg-opacity-80 p-2 padding-top-0 rounded-md shadow-md font-sans">
-            <div className="drag-handle w-full h-12 flex justify-center items-center cursor-move">
-          <FontAwesomeIcon icon={faGripHorizontal} className="text-gray-600" />
-        </div>
+              <div className="drag-handle w-full h-12 flex justify-center items-center cursor-move">
+                <FontAwesomeIcon icon={faGripHorizontal} className="text-gray-600" />
+              </div>
               <button
                 className="absolute top-2 right-2 text-gray-600 hover:text-gray-800"
                 onClick={() => setShowSettingsMenu(false)}
@@ -64,14 +66,16 @@ const SettingsMenu: React.FC<{
                 <input type="range" min="10" max="500" value={rows} onChange={(e) => updateRows(parseInt(e.target.value))} className="w-full appearance-none bg-gray-300 rounded-md h-5 transition-opacity duration-200 opacity-70 hover:opacity-100" />
               </div>
               <div className="mb-2">
-                <label className="block text-sm mb-1">Click-Draw change rate: <span className="text-gray-500 ml-2">{drawAddChance}</span></label>
-                <input type="range" min="0" max="100" value={100*drawAddChance} onChange={(e) => setDrawAddChance(parseInt(e.target.value)/100)} className="w-full appearance-none bg-gray-300 rounded-md h-5 transition-opacity duration-200 opacity-70 hover:opacity-100" />
+                <label className="block text-sm mb-1">Drawing spawn rate: <span className="text-gray-500 ml-2">{drawAddChance}</span></label>
+                <input type="range" min="0" max="100" value={100 * drawAddChance} onChange={(e) => setDrawAddChance(parseInt(e.target.value) / 100)} className="w-full appearance-none bg-gray-300 rounded-md h-5 transition-opacity duration-200 opacity-70 hover:opacity-100" />
               </div>
               <div className="mb-2">
                 <label className="block text-sm mb-1">Update Delay (ms): <span className="text-gray-500 ml-2">{refreshDelay}</span></label>
                 <input type="range" min="0" max="1000" step="10" value={refreshDelay} onChange={(e) => updateRefreshDelay(parseInt(e.target.value))} className="w-full appearance-none bg-gray-300 rounded-md h-5 transition-opacity duration-200 opacity-70 hover:opacity-100" />
               </div>
+              <button className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-md mb-2 w-full" onClick={randomizeBoard}>Randomize Board (spawn rate)</button>
               <button className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-md mb-2 w-full" onClick={clearBoard}>Clear Board</button>
+
             </div>
           </Draggable>
         )}

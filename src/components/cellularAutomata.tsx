@@ -181,11 +181,25 @@ const CellularAutomaton: React.FC = () => {
         await new Promise(resolve => setTimeout(resolve, 100));
     };
 
+    const RandomizeBoard = () => {
+        // Clear the grid
+        const updatedGrid = Array.from({ length: rows }, () => Array.from({ length: cols }, () => 0));
+        // Iterate over the columns and rows to copy the existing grid values
+        for (let i = 0; i < rows; i++) {
+            for (let j = 0; j < cols; j++) {
+                // If the current cell in the existing grid has a value, copy it; otherwise, set it to 0
+                updatedGrid[i][j] = (Math.random() < drawAddChance) ? 1 : 0;
+            }
+        }
+        setGrid(updatedGrid);
+    };
+
     const EraseBoard = () => {
         // Clear the grid
         const updatedGrid = Array.from({ length: rows }, () => Array.from({ length: cols }, () => 0));
         setGrid(updatedGrid);
     };
+
 
 
     useEffect(() => {
@@ -226,6 +240,7 @@ const CellularAutomaton: React.FC = () => {
                 updateRows={setRows}
                 updateRefreshDelay={setRefreshDelay}
                 setShowSettingsMenu={setShowSettingsMenu}
+                randomizeBoard={RandomizeBoard}
                 showSettingsMenu={showSettingsMenu}
                 clearBoard={EraseBoard}
                 drawAddChance ={drawAddChance}
