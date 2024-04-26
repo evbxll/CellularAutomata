@@ -41,7 +41,7 @@ const SettingsMenu: React.FC<{
           </button>
         )}
         {showSettingsMenu && (
-          <Draggable handle=".drag-handle">
+          <Draggable handle=".drag-handle" bounds="parent">
             <div className="absolute top-10 right-10 bg-gray-200 bg-opacity-80 p-2 padding-top-0 rounded-md shadow-md font-sans">
             <div className="drag-handle w-full h-12 flex justify-center items-center cursor-move">
           <FontAwesomeIcon icon={faGripHorizontal} className="text-gray-600" />
