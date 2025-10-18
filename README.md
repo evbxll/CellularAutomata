@@ -1,1 +1,1 @@
-Avaliable [here](https://evbxll.github.io/)
+Avaliable [here]([https://evbxll.github.io/](https://evbxll.github.io/CellularAutomata/))
